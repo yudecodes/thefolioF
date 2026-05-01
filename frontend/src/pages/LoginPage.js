@@ -1,61 +1,81 @@
-import React, { useState } from "react";
-import "../style.css";  // fixed path
-import Pic from '../assets/pic4-26.png';
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const LoginPage = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email === "test@example.com" && password === "123456") {
-      alert("Login successful!");
-    } else {
-      alert("Invalid credentials");
+    setError('');
+    try {
+      const user = await login(email, password);
+      // Redirect based on role
+      if (user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/home');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Invalid email or password.');
     }
   };
 
   return (
-    <section className="fade-in" style={{ maxWidth: "400px", margin: "50px auto" }}>
+    <div style={{ maxWidth: '400px', margin: '60px auto', padding: '30px',
+      background: '#f9f9f9', borderRadius: '10px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
+      <h2 style={{ textAlign: 'center', color: '#002D62' }}>Login</h2>
+
+      {error && (
+        <div style={{ background: '#BA0C2F', color: 'white', padding: '10px',
+          borderRadius: '5px', marginBottom: '15px', textAlign: 'center' }}>
+          {error}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <div>
-        <center><img src={Pic} alt="Logo" width="200px"/></center>
-      </div>
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Email</label>
-        <input
-          type="email"
-          value={email}
-          placeholder="Enter your email"
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            style={{ width: '100%', padding: '10px', borderRadius: '5px',
+              border: '1px solid #ccc', boxSizing: 'border-box' }}
+          />
+        </div>
 
-        <label>Password</label>
-        <input
-          type="password"
-          value={password}
-          placeholder="Enter your password"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div>
+          <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            style={{ width: '100%', padding: '10px', borderRadius: '5px',
+              border: '1px solid #ccc', boxSizing: 'border-box' }}
+          />
+        </div>
 
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "12px",
-            background: "#002D62",
-            color: "white",
-            borderRadius: "8px",
-            border: "none",
-          }}
-        >
+        <button type="submit" style={{
+          background: '#002D62', color: 'white', padding: '12px',
+          border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '1rem'
+        }}>
           Login
         </button>
       </form>
-    </section>
+
+      <p style={{ textAlign: 'center', marginTop: '15px' }}>
+        Don't have an account? <Link to="/register" style={{ color: '#002D62' }}>Register</Link>
+      </p>
+    </div>
   );
-}
+};
 
 export default LoginPage;

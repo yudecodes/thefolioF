@@ -11,8 +11,8 @@ const SplashPage = ({ onComplete }) => {
     }, 500);
 
     const timer = setTimeout(() => {
-      onComplete();
-    }, 3000); // Adjust duration as needed
+      onComplete?.();
+    }, 3000); 
 
     // Proper cleanup
     return () => {

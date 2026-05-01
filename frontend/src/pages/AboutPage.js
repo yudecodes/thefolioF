@@ -1,6 +1,5 @@
 // src/pages/About.js
 import React, { useState } from "react";
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Pic3 from '../assets/pic3-26.jpg'
 const About = () => {
@@ -34,7 +33,6 @@ const About = () => {
 
   return (
     <>
-      <Header />
       <div className="home-container">
         <section className="quiz-container">
           <h2>Baseball Trivia Quiz</h2>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../components/Header';
 import Footer from '../components/Footer'; 
 import Pic2 from '../assets/pic2-26.jpg'
 const Register = () => {
@@ -62,7 +61,6 @@ const Register = () => {
 
   return (
   <> 
-      <Header />
     <section>
       <h2>Register for Updates </h2>
       <img src={Pic2} alt="Baseball Practice" style={{ width: '100%', borderRadius: '8px' }} />

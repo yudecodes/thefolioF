@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Pic1 from '../assets/pic1-26.jpg'
 
@@ -9,8 +8,6 @@ const Home = () => {
 
   return (
     <> 
-      <Header />
-      
       <div className="home-container">
         {/* Hero Section */}
         <section style={{ textAlign: 'center', backgroundColor: 'var(--header-bg)', color: 'white', padding: '50px 20px' }}>
